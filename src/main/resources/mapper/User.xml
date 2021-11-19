@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.happyhouse.model.dao.UserDao">
+
+	<!-- 로그인 -->
+	<select id="login"
+		parameterType="com.ssafy.happyhouse.model.dto.LoginDto"
+		resultType="com.ssafy.happyhouse.model.dto.UserDto">
+		select userid, name, email, address
+		from member
+		where
+		userid = #{userid} and userpwd = #{userpwd}
+	</select>
+
+	<!-- 회원가입 -->
+	<insert id="join"
+		parameterType="com.ssafy.happyhouse.model.dto.UserDto">
+		insert into member(userid, userpwd, name, email,
+		address)
+		values(#{userid}, #{userpwd}, #{name}, #{email}, #{address})
+	</insert>
+
+
+	<!-- 아이디 찾기 -->
+	<select id="findUserId" resultType="string">
+		select userid from member
+		where email = #{email} and name = #{name}
+	</select>
+
+	<!-- 비밀번호 변경 -->
+	<update id="updatePassword"
+		parameterType="com.ssafy.happyhouse.model.dto.LoginDto">
+		update member set userpwd = #{userpwd} where userid =
+		#{userid}
+	</update>
+
+	<!-- 마이페이지 -->
+	<select id="myPage" parameterType="string"
+		resultType="com.ssafy.happyhouse.model.dto.UserDto">
+		select userid, userpwd, name, email, address
+		from member
+		where userid = #{userid}
+	</select>
+
+	<!-- 유저 업데이트 -->
+	<update id="memberUpdate"
+		parameterType="com.ssafy.happyhouse.model.dto.UserDto">
+		update member set name=#{name}, userpwd = #{userpwd},
+		address = #{address}, email= #{email}
+		where userid=#{userid}
+	</update>
+
+	<!-- 탈퇴 검사 -->
+	<select id="checkPassword"
+		parameterType="com.ssafy.happyhouse.model.dto.LoginDto"
+		resultType="int">
+		select count(*) from member where userid = #{userid} and
+		userpwd = #{userpwd}
+	</select>
+
+	<!-- 유저 삭제 -->
+	<delete id="memberWithdraw"
+		parameterType="com.ssafy.happyhouse.model.dto.LoginDto">
+		delete from member
+		where userid=#{userid} and
+		userpwd=#{userpwd}
+	</delete>
+
+	<select id="checkInfo"
+		parameterType="com.ssafy.happyhouse.model.dto.UserBeforeChangePasswordDto"
+		resultType="int">
+		select count(*)
+		from member
+		where userid=#{userid} and
+		email=#{email}
+	</select>
+
+	<!-- 아이디,비밀번호 찾기 용 -->
+	<!-- 아이디 중복 검사 -->
+	<select id="checkUserId" parameterType="string" resultType="int">
+		select count(*) from member where userid = #{userid}
+	</select>
+</mapper>

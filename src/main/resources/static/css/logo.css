@@ -1,0 +1,29 @@
+@charset "UTF-8";
+
+#mainNav.is-fixed #main-logo {
+  content: url("../assets/img/happyhouse_black.png");
+}
+
+@media screen and (max-width: 767px) {
+  #main-logo {
+    content: url("../assets/img/happyhouse_black.png");
+  }
+}
+
+@media screen and (min-width: 768px) {
+  #main-logo {
+    content: url("../assets/img/happyhouse_black.png");
+  }
+}
+
+@media (min-width: 992px) {
+  #main-logo {
+    content: url("../assets/img/happyhouse_white.png");
+  }
+}
+
+@media (min-width: 1200px) {
+  #main-logo {
+    content: url("../assets/img/happyhouse_white.png");
+  }
+}

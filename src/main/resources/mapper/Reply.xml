@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace="pakage + interface" -->
+<mapper namespace="com.ssafy.happyhouse.model.dao.ReplyDao">
+<!-- 1. 게시판 리스트 -->
+	
+	<!-- 게시글누르면 해당댓글보임 -->
+	<select id="list" resultType="ReplyDto">
+		select * from reply where BoardNO=#{BoardNO}
+	</select>
+	
+	<insert id="wirte">
+		insert into reply(content) values (#{content})
+	</insert>
+	
+	<update id="update">
+		update reply set content=#{content} where replyNo=#{replyNo}
+	</update>
+	
+	<delete id="delete">
+		delete from reply where replyNo=#{replyNo} 
+	</delete>
+	
+
+</mapper>

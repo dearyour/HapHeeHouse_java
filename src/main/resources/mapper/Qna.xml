@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.happyhouse.model.dao.QnaDao">
+	<select id="list" resultType="com.ssafy.happyhouse.model.dto.QnaDto">
+		select * from qna;
+	</select>
+	<select id="view" resultType="com.ssafy.happyhouse.model.dto.QnaDto">
+		select * from qna where qnaNo=#{qnaNo}
+	</select>
+	
+	<insert id="write">
+		insert into qna(userid, qnaName, writeDate, content, hit) values (#{userid}, #{qnaName}, now(), #{content}, 0)
+	</insert>
+	
+	<update id="update">
+		update qna set qnaName=#{qnaName},content=#{content} where qnaNo=#{qnaNo} 
+	</update>
+	
+	<delete id="delete">
+		delete from qna where qnaNo=#{qnaNo} 
+	</delete>
+	
+	<update id="increase">
+		update qna set total = total+1 where qnaNo=#{qnaNo}	
+	</update>
+	
+	<!-- 댓글 등록 -->
+	<update id="writeReply" parameterType="com.ssafy.happyhouse.model.dto.QnaDto">
+		update qna
+		   set replyContent = #{replyContent}, 
+		   	   replyDatetime = CURRENT_TIMESTAMP,
+		   	   replyUserid = #{replyUserid}
+		 where qnaNo = #{qnaNo}
+	</update>
+	
+	<!-- 댓글 수정 -->
+	<update id="updateReply" parameterType="com.ssafy.happyhouse.model.dto.QnaDto">
+		update qna 
+		   set replyContent = #{replyContent},  
+		   	   replyUserid = #{replyUserid}
+		 where qnaNo = #{qnaNo}
+	</update>
+
+	<!-- 댓글 삭제 -->
+	<update id="deleteReply" parameterType="int">
+		 update qna
+			set replyContent=null, replyDatetime=null, replyUserid=null
+		where qnaNo = #{no}
+	</update>
+</mapper>

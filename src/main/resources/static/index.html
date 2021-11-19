@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Happy House Team 5</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="" />
+<meta name="author" content="" />
+<!-- Google fonts-->
+<link
+	href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic"
+	rel="stylesheet" type="text/css" />
+<link
+	href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800"
+	rel="stylesheet" type="text/css" />
+<link rel="icon" type="image/x-icon"
+	href="assets/favicon_happyhouse.ico" />
+<link href="css/styles.css" rel="stylesheet" />
+<link href="css/logo.css" rel="stylesheet" />
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js"
+	crossorigin="anonymous"></script>
+<!-- Bootstrap core JS-->
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script src="js/scripts.js"></script>
+<script
+	src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+	<!-- Page Header -->
+	<header class="masthead"
+		style="margin-bottom: 0px; background-image: url('assets/img/home-bg.jpg')">
+		<div class="container position-relative px-4 px-lg-5">
+			<div class="row gx-4 gx-lg-5 justify-content-center">
+				<div class="col-md-10 col-lg-8 col-xl-7">
+					<div class="site-heading">
+						<h1>HAPPY HOUSE</h1>
+						<span class="subheading">행복한 우리 집</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+	<nav class="navbar navbar-expand-lg" id="mainNav">
+		<div class="container px-4 px-lg-5">
+			<!-- <a class="navbar-brand" href="index.jsp">Start Bootstrap</a> -->
+			<a class="navbar-brand" href="index.html"> <img id="main-logo"
+				src="assets/img/happyhouse_white.png" width="100px" />
+			</a>
+			<button class="navbar-toggler" type="button"
+				data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+				aria-controls="navbarResponsive" aria-expanded="false"
+				aria-label="Toggle navigation">
+				Menu <i class="fas fa-bars"></i>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarResponsive">
+				<script type="text/javascript" src="js/user.js"></script>
+				<ul class="navbar-nav ms-auto py-4 py-lg-0" id="navbarNotLogon">
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<div>
+		<section id="index_section">
+			<div class="card" style="min-height: 650px;">
+				<div class="m-3">
+					시도 : <select id="sido">
+						<option value="0">선택</option>
+					</select> 구군 : <select id="gugun">
+						<option value="0">선택</option>
+					</select> 읍면동 : <select id="dong">
+						<option value="0">선택</option>
+					</select>
+					<button type="button" id="aptSearchBtn">검색</button>
+					<script type="text/javascript" src="js/search.js"></script>
+				</div>
+				<hr/>
+				<div class="row m-3">
+					<h3 id="subject">전국 아파트 매매 현황</h3>
+					<div class="mr-3" style="overflow:scroll;width: 20%; height: 500px;">
+						<div id="searchResult"></div>
+					</div>
+					<div class="mr-3 ml-3" style="width: 80%;">
+						<div id="map" style="width: 100%; height: 500px;"></div>
+						<script type="text/javascript"
+							src="//dapi.kakao.com/v2/maps/sdk.js?appkey=2d21dcba471c972f7b405f5f6aac4135&libraries=services"></script>
+						<script type="text/javascript" src="js/map.js"></script>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	</div>
+	<!-- Main Content -->
+	<div class="container px-4 px-lg-5">
+		<div class="row p-3">
+			<div class="col-6 border-top">
+				<h6 class="fw-bold mt-4 fs-4">공지사항</h6>
+				<button class="button small" id="AddNewBoard">공지사항 쓰기</button>
+				<div id="boardResult"></div>
+				<script type="text/javascript" src="js/board.js"></script>
+			</div>
+			<div class="col-6 border-top">
+				<h6 class="fw-bold mt-4 fs-4">주택 관련 기사</h6>
+				<ul>
+					<li><a href="#!" class="small margin-clear" title="기사 제목 1">기사
+							제목 1</a></li>
+					<li><a href="#!" class="small margin-clear" title="기사 제목 2">기사
+							제목 2</a></li>
+					<li><a href="#!" class="small margin-clear" title="기사 제목 3">기사
+							제목 3</a></li>
+					<li><a href="#!" class="small margin-clear" title="기사 제목 4">기사
+							제목 4</a></li>
+					<li><a href="#!" class="small margin-clear" title="기사 제목 5">기사
+							제목 5</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!-- Footer -->
+	<footer class="border-top pt-4">
+		<div class="container">
+			<div
+				class="row justify-content-lg-between circle-blend-right circle-danger">
+				<!-- Site Maps -->
+				<div class="col-6">
+					<h6 class="fw-bold fs-4 mb-4">기본 메뉴</h6>
+					<ul class="list-unstyled mb-md-4 mb-lg-0">
+						<li class="mb-2"><a class="text-1100 text-decoration-none"
+							href="accountLogin.html">로그인</a></li>
+						<li class="mb-2"><a class="text-1100 text-decoration-none"
+							href="accountLogout.html">로그아웃</a></li>
+						<li class="mb-2"><a class="text-1100 text-decoration-none"
+							href="accountInfo.html">회원정보 조회</a></li>
+						<li class="mb-2"><a class="text-1100 text-decoration-none"
+							href="userlike.html">관심지역 설정</a></li>
+						<li class="mb-2"><a class="text-1100 text-decoration-none"
+							href="userlikelist.html">관심지역 둘러보기</a></li>
+					</ul>
+				</div>
+				<div class="col-6">
+					<h6 class="fw-bold fs-4 mb-4">마이페이지</h6>
+					<ul class="list-unstyled mb-md-4 mb-lg-0">
+						<li class="mb-2"><a class="text-1100 text-decoration-none"
+							href="accountIDSearch.html">아이디 찾기</a></li>
+						<li class="mb-2"><a class="text-1100 text-decoration-none"
+							href="accountPWSearch.html">비밀번호 찾기</a></li>
+						<li class="mb-2"><a class="text-1100 text-decoration-none"
+							href="accountModify.html">회원정보 수정</a></li>
+					</ul>
+				</div>
+			</div>
+			<hr class="text-200 mb-0" />
+			<div
+				class="row justify-content-md-between justify-content-evenly py-3">
+				<div
+					class="col-12 col-sm-8 col-md-6 col-lg-auto text-center text-md-start">
+					<p class="fs-0 my-2 text-400">
+						All rights Reserved <span class="fw-bold text-500">&copy;
+							Happy House, 2021</span>
+					</p>
+				</div>
+			</div>
+		</div>
+	</footer>
+	
+	<!--회원 가입 페이지-->
+	<div class="modal fade" id="sign_up_Modal" tabindex="-1"
+		aria-labelledby="sign_up_Modal" aria-hidden="true">
+		<div class="modal-dialog modal-xl">
+			<div class="modal-content" style="border-radius: 10px;">
+				<div class="modal-header border-0">
+					<button class="btn-close" type="button" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body text-center pb-5">
+					<!--<h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">회원 가입</h2>-->
+					<article class="container">
+						<div class="page-header">
+							<div class="col-md-12 col-md-offset-3">
+								<h3>회원가입</h3>
+							</div>
+						</div>
+						<div class="col-md-12 col-md-offset-3">
+							<form role="form" id="registerForm">
+								<div class="form-group" style="text-align: left;">
+									<label for="inputID">아이디</label> <span
+										class="text-danger small">*</span> <input type="text"
+										class="form-control" id="user_id" name="user_id" placeholder="아이디를 입력해 주세요">
+
+								</div>
+								<div class="form-group" style="text-align: left;">
+									<label for="inputPassword">비밀번호</label> <span
+										class="text-danger small">*</span> <input type="password"
+										class="form-control" id="password" name="password"
+										placeholder="비밀번호를 입력해주세요">
+								</div>
+								<div class="form-group" style="text-align: left;">
+									<label for="inputName">이름</label> <span
+										class="text-danger small">*</span> <input type="test"
+										class="form-control" id="name"  name="name" placeholder="이름을 입력해 주세요">
+								</div>
+								<div class="form-group" style="text-align: left;">
+									<label for="InputEmail">주소</label> <span
+										class="text-danger small">*</span> <input type="text"
+										class="form-control" id="address"  name="address" placeholder="주소를 입력해주세요">
+								</div>
+
+								<div class="form-group" style="text-align: left;">
+									<label for="inputMobile">이메일</label> <span
+										class="text-danger small">*</span> <input type="email"
+										class="form-control" id="email" name="email"
+										placeholder="이메일을 입력해 주세요">
+								</div>
+
+								<div class="form-group text-center">
+									<button type="submit" id="join-submit" class="btn btn-primary">
+										회원가입<i class="fa fa-check spaceLeft"></i>
+									</button>
+									<button type="submit" class="btn btn-warning">
+										가입취소<i class="fa fa-times spaceLeft"></i>
+									</button>
+								</div>
+							</form>
+						</div>
+
+					</article>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--회원 정보 페이지-->
+	<div class="portfolio-modal modal fade" id="profile_Modal"
+		tabindex="-1" aria-labelledby="profile_Modal" aria-hidden="true">
+		<div class="modal-dialog modal-xl">
+			<div class="modal-content" style="border-radius: 10px;">
+				<div class="modal-header border-0">
+					<button class="btn-close" type="button" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body text-center pb-5">
+					<!--<h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">회원 가입</h2>-->
+					<article class="container">
+						<div class="page-header">
+							<div class="col-md-12 col-md-offset-3">
+								<h3 id="infoSubject">회원정보</h3>
+							</div>
+						</div>
+						<div class="col-md-12 col-md-offset-3">
+							<h3 id="status"></h3>
+							<form role="form" id="infoForm">
+							</form>
+						</div>
+
+					</article>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--비밀 번호 찾기 페이지-->
+
+	<div class="modal fade" id="search_password_Modal" tabindex="-1"
+		aria-labelledby="serach_password_Modal" aria-hidden="true">
+		<div class="modal-dialog modal-xl">
+			<div class="modal-content" style="border-radius: 10px;">
+				<div class="modal-header border-0">
+					<button class="btn-close" type="button" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body text-center pb-5">
+					<!--<h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">회원 가입</h2>-->
+					<article class="container">
+						<div class="page-header">
+							<div class="col-md-12 col-md-offset-3">
+								<h3>비밀번호 찾기</h3>
+							</div>
+						</div>
+						<div class="col-md-12 col-md-offset-3">
+							<form role="form" id="findPasswordForm">
+							</form>
+						</div>
+
+					</article>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="boardModal" tabindex="-1"
+		aria-labelledby="boardModal" aria-hidden="true">
+		<div class="modal-dialog modal-xl">
+			<div class="modal-content" style="border-radius: 10px;">
+				<div class="modal-header border-0">
+					<button class="btn-close" type="button" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body text-center pb-5">
+					<!--<h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">회원 가입</h2>-->
+					<article class="container">
+						<div class="page-header">
+							<div class="col-md-12 col-md-offset-3">
+								<h3 id="boardSubject"></h3>
+							</div>
+						</div>
+						<div class="col-md-12 col-md-offset-3" id="boardModalResult">
+								
+						</div>
+						
+					</article>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

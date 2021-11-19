@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace="pakage + interface" -->
+<mapper namespace="com.ssafy.happyhouse.model.dao.BoardDao">
+	<select id="list" resultType="com.ssafy.happyhouse.model.dto.BoardDto">
+		select * from Board;
+	</select>
+	<select id="view" resultType="com.ssafy.happyhouse.model.dto.BoardDto">
+		select * from Board where BoardNo=#{BoardNo}
+	</select>
+	
+	<insert id="write">
+		insert into Board(boardName, writeDate, content, user_id) values (#{boardName}, now(), #{content}, #{user_id})
+	</insert>
+	
+	<update id="update">
+		update Board set BoardName=#{boardName},content=#{content} where BoardNo=#{boardNo} 
+	</update>
+	
+	<delete id="delete">
+		delete from Board where BoardNo=#{boardNo} 
+	</delete>
+	
+	<update id="increase">
+		update Board set total = total+1 where BoardNO=#{boardNO}	
+	</update>
+</mapper>

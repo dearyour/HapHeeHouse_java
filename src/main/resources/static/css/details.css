@@ -1,0 +1,6 @@
+.details-text {
+  font-size: 1rem;
+}
+.details-text > .important {
+  font-weight: 700;
+}
