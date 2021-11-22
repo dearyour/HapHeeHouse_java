@@ -5,12 +5,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.happyhouse.model.dto.HouseInfoDto;
-import com.ssafy.happyhouse.model.dto.HouseInfoMinMaxAreaDto;
+import com.ssafy.happyhouse.model.dto.HouseInfoRequestDto;
 import com.ssafy.happyhouse.model.dto.SidoGugunCodeDto;
 import com.ssafy.happyhouse.model.service.HouseMapService;
 
@@ -41,8 +42,8 @@ public class HouseMapController{
 	}
 	
 	@GetMapping("/apt")
-	public ResponseEntity<List<HouseInfoDto>> getAptInDong(@RequestParam("dong") String dong, @RequestParam("min") int minArea, @RequestParam("max") int maxArea) throws Exception {
-		return ResponseEntity.ok(houseMapService.getAptInDong(new HouseInfoMinMaxAreaDto(dong, minArea, maxArea)));
+	public ResponseEntity<List<HouseInfoDto>> getAptInDong(@ModelAttribute HouseInfoRequestDto requestDto) throws Exception {
+		return ResponseEntity.ok(houseMapService.getApt(requestDto));
 	}
 	
 	@GetMapping("/apt-gugun")

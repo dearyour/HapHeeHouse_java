@@ -35,11 +35,11 @@
 		where dongCode = #{dong} 
 		order by aptName
 	</select>
-	<select id="getAptInDongAndArea" resultType="houseInfoDto">
+	<select id="getApt" resultType="houseInfoDto">
 		select distinct i.aptCode, i.aptName, i.buildyear, i.dongCode, i.dongName, i.jibun, i.lat, i.lng, (select dealAmount from housedeal where aptCode = i.aptCode and no = (select max(no) from housedeal where aptCode = i.aptCode)) recentPrice
 		from houseinfo i
 		inner join housedeal d on i.aptCode = d.aptCode
-		where i.dongCode = #{dongCode} and cast(d.area as signed) between #{minArea} and #{maxArea}
+		where i.dongCode = #{dong} and cast(d.area as signed) between #{minArea} and #{maxArea} and cast(d.dealAmount as signed) between #{minAmount} and #{maxAmount}
 		order by d.area;
 	</select>
 	

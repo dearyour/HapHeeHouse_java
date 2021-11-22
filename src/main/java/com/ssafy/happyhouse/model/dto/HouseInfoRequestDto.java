@@ -10,15 +10,18 @@ import lombok.NonNull;
 @NoArgsConstructor
 @Data
 @Builder
-public class HouseInfoMinMaxAreaDto {
-	private String dongCode;
+public class HouseInfoRequestDto {
+	private String dong;
 	private int minArea;
 	private int maxArea;
-	public String getDongCode() {
-		return dongCode;
+	private int minAmount;
+	private int maxAmount;
+	
+	public String getDong() {
+		return dong;
 	}
-	public void setDongCode(String dongCode) {
-		this.dongCode = dongCode;
+	public void setDongCode(String dong) {
+		this.dong = dong;
 	}
 	public int getMinArea() {
 		return minArea;
@@ -32,5 +35,16 @@ public class HouseInfoMinMaxAreaDto {
 	public void setMaxArea(int maxArea) {
 		this.maxArea = maxArea;
 	}
-	
+	public int getMinAmount() {
+		return minAmount;
+	}
+	public void setMinAmount(int minAmount) {
+		this.minAmount = minAmount;
+	}
+	public int getMaxAmount() {
+		return maxAmount;
+	}
+	public void setMaxAmount(int maxAmount) {
+		this.maxAmount = maxAmount;
+	}
 }

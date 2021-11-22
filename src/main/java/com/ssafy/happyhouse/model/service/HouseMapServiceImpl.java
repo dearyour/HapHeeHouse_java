@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.ssafy.happyhouse.model.dao.HouseMapDAO;
 import com.ssafy.happyhouse.model.dto.HouseInfoDto;
-import com.ssafy.happyhouse.model.dto.HouseInfoMinMaxAreaDto;
+import com.ssafy.happyhouse.model.dto.HouseInfoRequestDto;
 import com.ssafy.happyhouse.model.dto.SidoGugunCodeDto;
 
 @Service
@@ -35,9 +35,9 @@ public class HouseMapServiceImpl implements HouseMapService {
 	}
  
 	@Override
-	public List<HouseInfoDto> getAptInDong(HouseInfoMinMaxAreaDto dto) {
+	public List<HouseInfoDto> getApt(HouseInfoRequestDto dto) {
 //		return houseMapDao.getAptInDong(dong);
-		return houseMapDao.getAptInDongAndArea(dto);
+		return houseMapDao.getApt(dto);
 	}
 	
 	@Override
