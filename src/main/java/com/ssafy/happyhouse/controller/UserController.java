@@ -11,11 +11,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.happyhouse.model.dto.LoginDto;
@@ -107,24 +110,78 @@ public class UserController {
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 	
-	@PostMapping("/update")
-	public ResponseEntity<Integer> update(String userpwd, String name, String address, String email, HttpSession session) throws Exception {
-		String userId = (String)session.getAttribute("userInfo");
-		log.info("update() - 회원정보 수정 " + userId);
-		int status = userService.memberUpdate(new UserDto(userId, userpwd, name, email, address));
+	@PostMapping("/join")
+	public ResponseEntity<Integer> join(@RequestBody UserDto vo) {
+		log.info("join() : " + vo);
+		return ResponseEntity.ok(userService.join(vo));
+	}
+	
+	@PutMapping("/update")
+	public ResponseEntity<Integer> update(@RequestBody UserDto userDto) throws Exception {
+//		String userId = (String)session.getAttribute("userInfo"); HttpSession session
+//		log.info("update() - 회원정보 수정 " + userid);
+		int status = userService.memberUpdate(userDto);
 		if (status == 0)
 			return ResponseEntity.ok(0);
 		else {
 			return ResponseEntity.ok(1);
 		}
 	}
+
 	
-	@PostMapping("/delete")
-	public ResponseEntity<Integer> delete(String confirmText, String userpwd, HttpSession session) throws Exception {
-		log.info("delete() - 회원정보 삭제 " + confirmText + ", " + userpwd);
+//	@DeleteMapping("/delete")
+//	public ResponseEntity<Integer> delete( String userid, String userpwd, HttpSession session) throws Exception {
+//		log.info("delete() - 회원정보 삭제 " +  ", " + userpwd);
+////		String userid = (String)session.getAttribute("userInfo");
+//		 
+//		// "USER"로 바인딩된 객체를 돌려준다. ("USER"로 바인딩된 객체가 없다면 null)
+//		UserDto userVO = (UserDto) session.getAttribute("USER");
+//		if(userVO != null) {
+//		    // 사용자 정보를 가져올 수 있다.
+//		    userid=userVO.getUserid(); // hong
+//		    userpwd=userVO.getUserpwd(); // 홍길동
+//		}
+//		int status = userService.memberWithdraw(userid, userpwd);
+//		if (status != 0 ) {
+//			// db 삭제
+////			userService.memberWithdraw(userid, userpwd);
+//			// session 값 삭제
+//			session.removeAttribute("userInfo");
+//			// 로그인 페이지로 돌아가도록
+//			return ResponseEntity.ok(1); 
+//		} else {
+//			return ResponseEntity.ok(-1);
+//		}
+//	}
+	
+	//String userid, String userpwd
+	
+//	@DeleteMapping("/delete")
+//	public ResponseEntity<Integer> delete(@RequestBody String userpwd, HttpSession session) throws Exception {
+//		log.info("delete() - 회원정보 삭제 " +  ", " + userpwd );
+//		String userid = (String)session.getAttribute("userInfo");
+////		HashMap userInfo = (HashMap) session.getAttribute("userInfo");
+////		String userid = (String) userInfo.get("userid");
+//		int status = userService.checkPassword(new LoginDto(userid, userpwd));
+//		if (status != 0 ) {
+//			// db 삭제
+//			userService.memberWithdraw(userid, userpwd);
+//			// session 값 삭제
+//			session.removeAttribute("userInfo");
+//			// 로그인 페이지로 돌아가도록
+//			return ResponseEntity.ok(1); 
+//		} else {
+//			return ResponseEntity.ok(-1);
+//		}
+//	} 
+	
+	//리퀘스트바디
+	@DeleteMapping("/delete")
+	public ResponseEntity<Integer> delete(@RequestBody String userpwd, HttpSession session) throws Exception {
+		log.info("delete() - 회원정보 삭제 " +  ", " + userpwd);
 		String userid = (String)session.getAttribute("userInfo");
 		int status = userService.checkPassword(new LoginDto(userid, userpwd));
-		if (status != 0 && "모든 정보를 삭제하고 탈퇴하겠습니다.".equals(confirmText)) {
+		if (status != 0 ) {
 			// db 삭제
 			userService.memberWithdraw(userid, userpwd);
 			// session 값 삭제
@@ -135,12 +192,26 @@ public class UserController {
 			return ResponseEntity.ok(-1);
 		}
 	} 
+	
+//	//원본
+//	@DeleteMapping("/delete")
+//	public ResponseEntity<Integer> delete(String confirmText, String userpwd, HttpSession session) throws Exception {
+//		log.info("delete() - 회원정보 삭제 " + confirmText + ", " + userpwd);
+//		String userid = (String)session.getAttribute("userInfo");
+//		int status = userService.checkPassword(new LoginDto(userid, userpwd));
+//		if (status != 0 && "모든 정보를 삭제하고 탈퇴하겠습니다.".equals(confirmText)) {
+//			// db 삭제
+//			userService.memberWithdraw(userid, userpwd);
+//			// session 값 삭제
+//			session.removeAttribute("userInfo");
+//			// 로그인 페이지로 돌아가도록
+//			return ResponseEntity.ok(1); 
+//		} else {
+//			return ResponseEntity.ok(-1);
+//		}
+//	} 
+	
 
-	@PostMapping("/join")
-	public ResponseEntity<Integer> join(@RequestBody UserDto vo) {
-		log.info("join() : " + vo);
-		return ResponseEntity.ok(userService.join(vo));
-	}
 
 	@GetMapping("/check-info")
 	public ResponseEntity<Integer> checkInfoBeforeChangePassword(UserBeforeChangePasswordDto userChangePasswordDto) {

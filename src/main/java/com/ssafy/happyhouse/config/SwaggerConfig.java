@@ -10,7 +10,7 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-//http://localhost:9999/vue/swagger-ui.html
+//http://localhost:8080/vue/swagger-ui.html
 
 @Configuration
 @EnableSwagger2

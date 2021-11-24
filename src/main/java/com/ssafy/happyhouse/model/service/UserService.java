@@ -22,6 +22,7 @@ public interface UserService {
 	public int memberUpdate(UserDto vo);
 	
 	// 회원 탈퇴
+//	public int memberWithdraw(String userid);
 	public int memberWithdraw(String userid, String userpwd);
 	
 	// 비밀번호 변경 전 아이디, 이메일, 이름 확인

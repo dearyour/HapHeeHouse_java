@@ -3,30 +3,18 @@ package com.ssafy.happyhouse.model.service;
 import java.util.List;
 
 import com.ssafy.happyhouse.model.dto.QnaDto;
+import com.ssafy.happyhouse.model.dto.QnaParameterDto;
 import com.ssafy.happyhouse.model.dto.QnaReplyDto;
+import com.ssafy.util.PageNavigation;
 
 public interface QnaService {
-	// 1. 공지사항 리스트
-	public List<QnaDto> list();
-
-	// 2. 공지사항 보기 
-	public QnaDto view(int qnaId);
-
-	// 2-1. 공지사항 조회수 1 증가
-	public int increase(int qnaId);
-
-	// 3. 게시판 글쓰기
-	public int write(QnaDto qnaDto);
+	public boolean writeArticle(QnaDto qnaDto) throws Exception;
+	public List<QnaDto> listArticle(QnaParameterDto qnaParameterDto) throws Exception;
+	public PageNavigation makePageNavigation(QnaParameterDto qnaParameterDto) throws Exception;
 	
-	// 4. 게시판 글수정
-	public int update(QnaDto qnaDto);
-	
-	// 5. 게시판 글삭제
-	public int delete(int qnaId);
-	
-	public int writeReply(QnaDto dto);
-	
-	public int updateReply(QnaDto dto);
-	
-	public int deleteReply(int no);	//게시물의 번호
+	public QnaDto getArticle(int articleno) throws Exception;
+	public void updateHit(int articleno) throws Exception;
+	public boolean modifyArticle(QnaDto qnaDto) throws Exception;
+	public boolean deleteArticle(int articleno) throws Exception;
+//	public BoardResultDto boardListSearchWord(BoardParamDto boardParamDto);
 }

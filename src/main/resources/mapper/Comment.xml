@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace="pakage + interface" -->
+<mapper namespace="com.ssafy.happyhouse.model.dao.CommentDao">
+<!-- 1. 게시판 리스트 -->
+	
+	<!-- 게시글누르면 해당댓글보임 -->
+	<select id="list" resultType="com.ssafy.happyhouse.model.dto.CommentDto">
+		select * from comment where articleno=#{articleno}
+	</select>
+	
+	<insert id="write">
+		insert into comment(articleno,userid,comment) values (#{articleno}, #{userid}, #{comment})
+	</insert>
+	
+	<update id="update">
+		update comment set comment=#{comment} where isbn=#{isbn}
+	</update>
+	
+	<delete id="delete">
+		delete from comment where isbn=#{isbn} 
+	</delete>
+	
+
+</mapper>

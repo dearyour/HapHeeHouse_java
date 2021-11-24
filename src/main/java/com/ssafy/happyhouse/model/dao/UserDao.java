@@ -21,6 +21,7 @@ public interface UserDao {
 	public int memberUpdate(UserDto vo);
 	
 	// 유저 탈퇴 
+//	public int memberWithdraw(String userId);
 	public int memberWithdraw(LoginDto dto);
 	
 	// 비밀번호 변경 전 아이디, 이메일 검사

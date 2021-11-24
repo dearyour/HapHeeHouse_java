@@ -3,50 +3,82 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ssafy.happyhouse.model.dao.QnaDao">
-	<select id="list" resultType="com.ssafy.happyhouse.model.dto.QnaDto">
-		select * from qna;
-	</select>
-	<select id="view" resultType="com.ssafy.happyhouse.model.dto.QnaDto">
-		select * from qna where qnaNo=#{qnaNo}
-	</select>
-	
-	<insert id="write">
-		insert into qna(userid, qnaName, writeDate, content, hit) values (#{userid}, #{qnaName}, now(), #{content}, 0)
+
+	<insert id="writeArticle" parameterType="com.ssafy.happyhouse.model.dto.QnaDto">
+		insert into qna (userid, subject, content, hit, regtime)
+		values (#{userid}, #{subject}, #{content}, 0, now())
 	</insert>
 	
-	<update id="update">
-		update qna set qnaName=#{qnaName},content=#{content} where qnaNo=#{qnaNo} 
+	<select id="listArticle" parameterType="map" resultType="com.ssafy.happyhouse.model.dto.QnaDto">
+		select articleno, userid, subject, content, hit,
+				case when date_format(regtime, '%Y%m%d') = date_format(now(), '%Y%m%d')
+				then date_format(regtime, '%H:%i:%s')
+				else date_format(regtime, '%y.%m.%d')
+				end regtime
+		from qna
+		<if test="word != null and word != ''">
+			<if test="key == 'subject'">
+				where subject like concat('%', #{word}, '%')
+			</if>
+			<if test="key != 'subject'">
+				where ${key} = #{word}
+			</if>
+		</if>
+		order by articleno desc
+		limit #{start}, #{spp}
+	</select>
+	
+	<select id="getTotalCount" parameterType="map" resultType="int">
+		select count(articleno)
+		from qna
+		<if test="word != null and word != ''">
+			<if test="key == 'subject'">
+				where subject like concat('%', #{word}, '%')
+			</if>
+			<if test="key != 'subject'">
+				where ${key} = #{word}
+			</if>
+		</if>
+	</select>
+	
+	<select id="QnaListSearchWord" parameterType="map" resultType="com.ssafy.happyhouse.model.dto.QnaDto">
+		SELECT b.articleno, b.userid, u.email, u.USER_PROFILE_IMAGE_URL,
+		  	   b.subject, b.content, b.regtime, b.hit
+		  FROM qna b, member u
+		  WHERE b.userid = u.userid
+		    AND b.subject LIKE CONCAT('%', #{searchWord} ,'%')
+		  ORDER BY b.articleno DESC
+		  LIMIT #{limit} OFFSET #{offset}
+	</select>
+	
+	
+	
+	
+	<select id="getArticle" parameterType="int" resultType="com.ssafy.happyhouse.model.dto.QnaDto">
+		select articleno, userid, subject, content, hit, regtime
+		from qna
+		where articleno = #{articleno}
+	</select>
+	
+	<update id="updateHit" parameterType="int">
+		update qna
+		set hit = hit + 1
+		where articleno = #{articleno}
 	</update>
 	
-	<delete id="delete">
-		delete from qna where qnaNo=#{qnaNo} 
+	<update id="modifyArticle" parameterType="com.ssafy.happyhouse.model.dto.QnaDto">
+		update qna
+		set subject = #{subject}, content = #{content}
+		where articleno = #{articleno}
+	</update>
+	
+	<delete id="deleteMemo" parameterType="int">
+		delete from qna
+		where articleno = #{articleno}
 	</delete>
 	
-	<update id="increase">
-		update qna set total = total+1 where qnaNo=#{qnaNo}	
-	</update>
-	
-	<!-- 댓글 등록 -->
-	<update id="writeReply" parameterType="com.ssafy.happyhouse.model.dto.QnaDto">
-		update qna
-		   set replyContent = #{replyContent}, 
-		   	   replyDatetime = CURRENT_TIMESTAMP,
-		   	   replyUserid = #{replyUserid}
-		 where qnaNo = #{qnaNo}
-	</update>
-	
-	<!-- 댓글 수정 -->
-	<update id="updateReply" parameterType="com.ssafy.happyhouse.model.dto.QnaDto">
-		update qna 
-		   set replyContent = #{replyContent},  
-		   	   replyUserid = #{replyUserid}
-		 where qnaNo = #{qnaNo}
-	</update>
-
-	<!-- 댓글 삭제 -->
-	<update id="deleteReply" parameterType="int">
-		 update qna
-			set replyContent=null, replyDatetime=null, replyUserid=null
-		where qnaNo = #{no}
-	</update>
+	<delete id="deleteArticle" parameterType="int">
+		delete from qna
+		where articleno = #{articleno}
+	</delete>
 </mapper>

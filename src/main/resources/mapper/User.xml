@@ -64,8 +64,7 @@
 	<delete id="memberWithdraw"
 		parameterType="com.ssafy.happyhouse.model.dto.LoginDto">
 		delete from member
-		where userid=#{userid} and
-		userpwd=#{userpwd}
+		where userid=#{userid} and userpwd=#{userpwd}
 	</delete>
 
 	<select id="checkInfo"

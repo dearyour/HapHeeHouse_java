@@ -2,10 +2,13 @@ package com.ssafy.happyhouse.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,98 +16,77 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.happyhouse.model.dto.QnaDto;
-import com.ssafy.happyhouse.model.dto.QnaRegistDto;
-import com.ssafy.happyhouse.model.dto.QnaReplyDto;
+import com.ssafy.happyhouse.model.dto.QnaParameterDto;
 import com.ssafy.happyhouse.model.service.QnaService;
 
-import lombok.extern.log4j.Log4j2;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
-@Log4j2
-@RequestMapping("/qna")
+//http://localhost:9999/vue/swagger-ui.html
+//@CrossOrigin(origins = { "*" }, methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.POST} , maxAge = 6000)
+//@CrossOrigin(origins = { "*" }, methods = {RequestMethod.PUT, RequestMethod.POST} , maxAge = 6000)
+//@CrossOrigin("*")
 @RestController
+@RequestMapping("/qna")
+@Api("게시판 컨트롤러  API V1")
 public class QnaController {
-	
-	private QnaService qnaService;
+
+	private static final Logger logger = LoggerFactory.getLogger(QnaController.class);
+	private static final String SUCCESS = "success";
+	private static final String FAIL = "fail";
+
 	@Autowired
-	public void setQnaService(QnaService qnaService) {
-		this.qnaService = qnaService;
+	private QnaService qnaService;
+
+	@ApiOperation(value = "게시판 글작성", notes = "새로운 게시글 정보를 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
+	@PostMapping
+	public ResponseEntity<String> writeArticle(@RequestBody @ApiParam(value = "게시글 정보.", required = true) QnaDto qnaDto) throws Exception {
+		logger.info("writeArticle - 호출");
+		if (qnaService.writeArticle(qnaDto)) {
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		}
+		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}
 	
-	@GetMapping("/")
-	public ResponseEntity<List<QnaDto>> list() {
-		log.info("list");
-		return ResponseEntity.ok(qnaService.list());
+	@ApiOperation(value = "게시판 글목록", notes = "모든 게시글의 정보를 반환한다.", response = List.class)
+	@GetMapping
+	public ResponseEntity<List<QnaDto>> listArticle(@ApiParam(value = "게시글을 얻기위한 부가정보.", required = true) QnaParameterDto qnaParameterDto) throws Exception {
+		logger.info("listArticle - 호출");
+		return new ResponseEntity<List<QnaDto>>(qnaService.listArticle(qnaParameterDto), HttpStatus.OK);
 	}
 	
-	@GetMapping("/{qnaId}")
-	public ResponseEntity<QnaDto> view(@PathVariable int qnaId) {
-		log.info("view");
-		return ResponseEntity.ok(qnaService.view(qnaId));
+	@ApiOperation(value = "게시판 글보기", notes = "글번호에 해당하는 게시글의 정보를 반환한다.", response = QnaDto.class)
+	@GetMapping("/{articleno}")
+	public ResponseEntity<QnaDto> getArticle(@PathVariable("articleno") @ApiParam(value = "얻어올 글의 글번호.", required = true) int articleno) throws Exception {
+		logger.info("getArticle - 호출 : " + articleno);
+		qnaService.updateHit(articleno);
+		return new ResponseEntity<QnaDto>(qnaService.getArticle(articleno), HttpStatus.OK);
 	}
 	
-	@PutMapping("/{qnaId}")
-	public ResponseEntity<Integer> increase(@PathVariable int qnaId) {
-		log.info("increase");
-		return ResponseEntity.ok(qnaService.increase(qnaId));
-	}
-	
-	@PostMapping("/")
-	public ResponseEntity<Integer> write(@RequestBody QnaRegistDto dto) {
-//		String userId = (String)session.getAttribute("userInfo");
-//		if (userId == null) return ResponseEntity.ok(0);
-		log.info("write");
-		System.out.println(dto.getUserid() + ", " + dto.getQnaName() + ", " + dto.getContent());
-		QnaDto qnaDto = new QnaDto();
-		qnaDto.setQnaName(dto.getQnaName());
-		qnaDto.setContent(dto.getContent());
-		qnaDto.setUserid(dto.getUserid());
-		return ResponseEntity.ok(qnaService.write(qnaDto));
-	}
-	
-	@PutMapping("/increase/{qnaId}")
-	public ResponseEntity<Integer> update(@PathVariable int qnaId, String qnaName, String content) {
-		log.info("update");
-		System.out.println(qnaId + ", " + qnaName + " ," +content);
-		QnaDto dto = new QnaDto(qnaId);
-		dto.setQnaName(qnaName);
-		dto.setContent(content);
-		return ResponseEntity.ok(qnaService.update(dto));
-	}
-	
-	@DeleteMapping("/{qnaId}")
-	public ResponseEntity<Integer> delete(@PathVariable int qnaId) {
-		log.info("delete");
-		return ResponseEntity.ok(qnaService.delete(qnaId));
-	}
-	
-	 /* Reply */
-	@PostMapping("/reply/{qnaId}")
-	public ResponseEntity<Integer> writeReply(@PathVariable int qnaId, @RequestBody QnaReplyDto reply,HttpSession session) {
-		String userid = (String)session.getAttribute("userInfo");
+	@ApiOperation(value = "게시판 글수정", notes = "새로운 게시글 정보를 입력한다. 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
+	@PutMapping
+	public ResponseEntity<String> modifyArticle(@RequestBody @ApiParam(value = "수정할 글정보.", required = true) QnaDto qnaDto) throws Exception {
+		logger.info("modifyArticle - 호출");
 		
-		QnaDto dto = new QnaDto();
-		dto.setQnaNo(qnaId);
-		dto.setReplyUserid(userid);
-		dto.setReplyContent(reply.getReplyContent());
-		return ResponseEntity.ok(qnaService.writeReply(dto));
+		if (qnaService.modifyArticle(qnaDto)) {
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		}
+		return new ResponseEntity<String>(FAIL, HttpStatus.OK);
 	}
-    
-	@PutMapping("/reply/{qnaId}")
-	public ResponseEntity<Integer> updateReply(@PathVariable int qnaId, @RequestBody QnaReplyDto reply,HttpSession session) {
-		String userid = (String)session.getAttribute("userInfo");
-		
-		QnaDto dto = new QnaDto();
-		dto.setQnaNo(qnaId);
-		dto.setReplyUserid(userid);
-		dto.setReplyContent(reply.getReplyContent());
-		return ResponseEntity.ok(qnaService.updateReply(dto));
+	
+	@ApiOperation(value = "게시판 글삭제", notes = "글번호에 해당하는 게시글의 정보를 삭제한다. 그리고 DB삭제 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
+	@DeleteMapping("/{articleno}")
+	public ResponseEntity<String> deleteArticle(@PathVariable("articleno") @ApiParam(value = "살제할 글의 글번호.", required = true) int articleno) throws Exception {
+		logger.info("deleteArticle - 호출");
+		if (qnaService.deleteArticle(articleno)) {
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		}
+		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}
-    
-	@DeleteMapping("/reply/{qnaId}")
-	public ResponseEntity<Integer> deleteReply(@PathVariable int qnaId,HttpSession session) {
-		return ResponseEntity.ok(qnaService.deleteReply(qnaId));
-	}
+
 }

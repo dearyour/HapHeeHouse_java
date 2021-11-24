@@ -65,6 +65,8 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public int memberWithdraw(String userid, String userpwd) {
 		return userDao.memberWithdraw(new LoginDto(userid, userpwd));
+//	public int memberWithdraw(String userid) {
+//		return userDao.memberWithdraw(userid);
 	}
 
 	@Override
