@@ -11,7 +11,7 @@ public class BoardFileDto {
 	private String fileUrl;
 	private LocalDateTime regDt;
 	
-	public int getFileId() {
+	public int getFileId() { 
 		return fileId;
 	}
 	public void setFileId(int fileId) {

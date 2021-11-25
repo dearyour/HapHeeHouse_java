@@ -17,7 +17,7 @@ public class UserDtos {
 	private String userRank;
 	private String codeName;
 	
-	
+	 
 			
 	public String getUserRank() {
 		return userRank;
