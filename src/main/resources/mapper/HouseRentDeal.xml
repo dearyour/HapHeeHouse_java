@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.happyhouse.model.dao.HouseInfoDealDAO">
+	<insert id="insert">
+		insert into houserentdeal (aptCode, aptName, dealYear, dealMonth, dealDay, floor, area, rentTypeCode, rentTypeName, deposit, rentMoney, buildYear)
+		values (#{aptCode}, #{aptName}, #{dealYear}, #{dealMonth}, #{dealDay},#{floor}, #{area}, #{rentTypeCode}, #{rentTypeName}, #{deposit}, #{rentMoney}, #{buildYear})
+	</insert>
+	<select id="searchByAptCode" parameterType="int" resultType="houseDealDto">
+		select *
+		from houserentdeal
+		where aptCode=#{aptCode}
+	</select>
+<!-- 	<select id="searchDealInfoByAptCode" parameterType="int" resultType="houseDealDto">
+		select no, aptCode, dealAmount, dealYear, dealMonth, dealDay, area, floor, type, rentMoney 
+		from houseinfodeal
+		where aptCode=#{aptCode}
+		order by no
+	</select> -->
+</mapper>
