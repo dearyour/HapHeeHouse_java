@@ -23,12 +23,12 @@ import com.ssafy.happyhouse.model.service.BoardService;
 
 
 // BoardFileUploadSpringBootMybatis 대비 @CrossOrign 추가 <-- vue cli mode 개발 대응
-@CrossOrigin(
-		origins = "http://localhost:5500", // allowCredentials = "true" 일 경우, orogins="*" 는 X
-		allowCredentials = "true", 
-		allowedHeaders = "*", 
-		methods = {RequestMethod.GET,RequestMethod.POST,RequestMethod.DELETE,RequestMethod.PUT,RequestMethod.HEAD,RequestMethod.OPTIONS}
-)
+//@CrossOrigin(
+//		origins = "http://localhost:5500", // allowCredentials = "true" 일 경우, orogins="*" 는 X
+//		allowCredentials = "true", 
+//		allowedHeaders = "*", 
+//		methods = {RequestMethod.GET,RequestMethod.POST,RequestMethod.DELETE,RequestMethod.PUT,RequestMethod.HEAD,RequestMethod.OPTIONS}
+//)
 // @CrossOrigin // 이것만으로는 오류 발생 <-- allowCredentials = "true"
 @RestController
 public class BoardController {
@@ -66,9 +66,9 @@ public class BoardController {
 		
 		BoardResultDto boardResultDto = service.boardDetail(boardParamDto);
 		// 게시글 작성자와 현 사용자가 동일
-		if( ((UserDto) session.getAttribute("userDto")).getUserSeq() == boardResultDto.getDto().getUserSeq() ) {
+//		if( ((UserDto) session.getAttribute("userDto")).getUserSeq() == boardResultDto.getDto().getUserSeq() ) {
 			boardResultDto.setOwner(true);
-		}
+//		}
 		
 		if( boardResultDto.getResult() == SUCCESS ) {
 			return new ResponseEntity<BoardResultDto>(boardResultDto, HttpStatus.OK);
