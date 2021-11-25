@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.ssafy.happyhouse.dao.BoardDao">
+
+	<insert id="boardInsert" parameterType="com.ssafy.happyhouse.model.dto.BoardDto" useGeneratedKeys="true" keyProperty="boardId">
+		INSERT INTO BOARD ( USER_SEQ, TITLE, CONTENT, REG_DT, READ_COUNT )
+		            VALUES ( #{userSeq}, #{title}, #{content}, now(), 0 )
+	</insert>
+	
+	<insert id="boardFileInsert" parameterType="com.ssafy.happyhouse.model.dto.BoardFileDto">
+		INSERT INTO BOARD_FILE ( BOARD_ID, FILE_NAME, FILE_SIZE, FILE_CONTENT_TYPE, FILE_URL )
+		            VALUES ( #{boardId}, #{fileName}, #{fileSize}, #{fileContentType}, #{fileUrl} )
+	</insert>
+	
+	<!-- reg_dt : LocalDateTime, check out BoardDto setter  -->
+	<select id="boardList" parameterType="map" resultType="com.ssafy.happyhouse.model.dto.BoardDto">
+		SELECT b.BOARD_ID, b.USER_SEQ, u.USER_NAME, u.USER_PROFILE_IMAGE_URL,
+		  	   b.TITLE, b.CONTENT, b.REG_DT, b.READ_COUNT
+		  FROM BOARD b, USER u
+		 WHERE b.USER_SEQ = u.USER_SEQ
+		 ORDER BY b.BOARD_ID DESC
+		 LIMIT #{limit} OFFSET #{offset}
+	</select>
+	
+	<select id="boardListTotalCount" resultType="int">
+		SELECT COUNT(*) FROM BOARD
+	</select>
+	
+	<select id="boardListSearchWord" parameterType="map" resultType="com.ssafy.happyhouse.model.dto.BoardDto">
+		SELECT b.BOARD_ID, b.USER_SEQ, u.USER_NAME, u.USER_PROFILE_IMAGE_URL,
+		  	   b.TITLE, b.CONTENT, b.REG_DT, b.READ_COUNT
+		  FROM BOARD b, USER u
+		  WHERE b.USER_SEQ = u.USER_SEQ
+		    AND b.TITLE LIKE CONCAT('%', #{searchWord} ,'%')
+		  ORDER BY b.BOARD_ID DESC
+		  LIMIT #{limit} OFFSET #{offset}
+	</select>
+	
+	<select id="boardListSearchWordTotalCount" parameterType="string" resultType="int">
+		SELECT COUNT(*)
+		  FROM BOARD
+		 WHERE TITLE LIKE CONCAT('%', #{searchWord} ,'%')
+	</select>
+	
+	<update id="boardUpdate" parameterType="com.ssafy.happyhouse.model.dto.BoardDto">
+		UPDATE BOARD
+		   SET TITLE = #{title},
+		   CONTENT   = #{content}
+		 WHERE BOARD_ID = #{boardId}
+	</update>
+	
+	<delete id="boardDelete" parameterType="int">
+		DELETE FROM BOARD WHERE BOARD_ID = #{boardId}
+	</delete>
+	
+	<delete id="boardFileDelete" parameterType="int">
+		DELETE FROM BOARD_FILE WHERE BOARD_ID = #{boardId}
+	</delete>
+	
+	<select id="boardFileUrlDeleteList" parameterType="int" resultType="string">
+		SELECT FILE_URL FROM BOARD_FILE WHERE BOARD_ID = #{boardId}
+	</select>
+
+	<select id="boardDetail" parameterType="int" resultType="com.ssafy.happyhouse.model.dto.BoardDto">
+		SELECT b.BOARD_ID, b.USER_SEQ, u.USER_NAME, u.USER_PROFILE_IMAGE_URL,
+			   b.TITLE, b.CONTENT, b.REG_DT, b.READ_COUNT
+		  FROM BOARD b, USER u
+		 WHERE b.BOARD_ID = #{boardId}
+		   AND b.USER_SEQ = u.USER_SEQ
+	</select>
+	
+	<select id="boardDetailFileList" parameterType="int" resultType="com.ssafy.happyhouse.model.dto.BoardFileDto">
+		SELECT BOARD_ID, FILE_ID, FILE_NAME, FILE_SIZE, FILE_CONTENT_TYPE, 
+		       FILE_URL, REG_DT
+		  FROM BOARD_FILE
+		 WHERE BOARD_ID = #{boardId}
+	</select>
+	
+	<!-- Dao use Dto -->
+	<select id="boardUserReadCount" parameterType="map" resultType="int">
+		SELECT count(*) FROM board_user_read WHERE board_id = #{boardId} and user_seq = #{userSeq}
+	</select>
+	
+	<!-- Dao use @param -->
+	<insert id="boardUserReadInsert" parameterType="map">
+		INSERT INTO board_user_read ( board_id, user_seq )
+		            VALUES ( #{boardId}, #{userSeq} )
+	</insert>
+	
+	<update id="boardReadCountUpdate" parameterType="int">
+		UPDATE board set READ_COUNT = READ_COUNT + 1
+		 WHERE BOARD_ID = #{boardId}
+	</update>
+	
+	<update id="boardReadCountDelete" parameterType="int">
+		DELETE FROM board_user_read WHERE BOARD_ID = #{boardId}
+	</update>
+	
+	
+
+</mapper>
+
+
+
+
+
+

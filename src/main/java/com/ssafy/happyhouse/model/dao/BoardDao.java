@@ -1,29 +1,47 @@
 package com.ssafy.happyhouse.model.dao;
 
+
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.ssafy.happyhouse.model.dto.BoardDto;
+import com.ssafy.happyhouse.model.dto.BoardFileDto;
+import com.ssafy.happyhouse.model.dto.BoardParamDto;
 
+@Mapper
 public interface BoardDao {
 	
-	// 1. 공지사항 리스트
-	public List<BoardDto> list();
-
-	// 2. 공지사항 보기 
-	public BoardDto view(int boardNo);
-
-	// 2-1. 공지사항 조회수 1 증가
-	public int increase(int boardNo);
-
-	// 3. 게시판 글쓰기
-	public int write(BoardDto vo);
+	public BoardDto boardDetail(BoardParamDto boardParamDto);
+	public List<BoardFileDto> boardDetailFileList(int boardId);
 	
-	// 4. 게시판 글수정
-	public int update(BoardDto vo);
+	// map - Dto
+	public int boardUserReadCount(BoardParamDto boardParamDto); 
 	
-	// 5. 게시판 글삭제
-	public int delete(int boardNo);
+	// map - @param
+	public int boardUserReadInsert(
+			@Param("boardId") int boardId, 
+			@Param("userSeq") int userSeq ); 
+	
+	public int boardReadCountUpdate(int boardId);
+	
+	
+	public int boardDelete(int boardId);	
+	public int boardFileDelete(int boardId);
+	public List<String> boardFileUrlDeleteList(int boardId);
+	public int boardReadCountDelete(int boardId);
+	
+	public int boardInsert(BoardDto dto);
+	public int boardFileInsert(BoardFileDto dto);
+	
+	public List<BoardDto> boardList(BoardParamDto boardParamDto);
+	public int boardListTotalCount();
+	
+	public List<BoardDto> boardListSearchWord(BoardParamDto boardParamDto);
+	public int boardListSearchWordTotalCount(BoardParamDto boardParamDto);
+	
 
+	public int boardUpdate(BoardDto dto);
 
 }

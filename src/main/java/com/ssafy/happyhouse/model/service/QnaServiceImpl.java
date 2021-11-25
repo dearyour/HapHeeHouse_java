@@ -8,8 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.happyhouse.model.dao.QnaDao;
+import com.ssafy.happyhouse.model.dto.BoardDto;
 import com.ssafy.happyhouse.model.dto.QnaDto;
 import com.ssafy.happyhouse.model.dto.QnaParameterDto;
+import com.ssafy.happyhouse.model.dto.QnaResultDto;
 import com.ssafy.util.PageNavigation;
 
 @Service
@@ -17,6 +19,10 @@ public class QnaServiceImpl implements QnaService {
 	
 	@Autowired
 	private SqlSession sqlSession;
+	QnaDao dao;
+	
+	private static final int SUCCESS = 1;
+	private static final int FAIL = -1;
 
 	@Override
 	public boolean writeArticle(QnaDto qnaDto) throws Exception {
@@ -72,6 +78,48 @@ public class QnaServiceImpl implements QnaService {
 	public boolean deleteArticle(int articleno) throws Exception {
 		sqlSession.getMapper(QnaDao.class).deleteMemo(articleno);
 		return sqlSession.getMapper(QnaDao.class).deleteArticle(articleno) == 1;
+	}
+	
+	@Override
+	public QnaResultDto qnaList(QnaParameterDto qnaParameterDto) {
+		
+		QnaResultDto qnaResultDto = new QnaResultDto();
+		
+		try {
+			List<QnaDto> list = dao.qnaList(qnaParameterDto);
+			int count = dao.qnaListTotalCount();			
+			qnaResultDto.setList(list);
+			qnaResultDto.setCount(count);
+			qnaResultDto.setResult(SUCCESS);
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+			qnaResultDto.setResult(FAIL);
+		}
+		
+		return qnaResultDto;
+	}
+
+	@Override
+	public QnaResultDto qnaListSearchWord(QnaParameterDto qnaParameterDto) {
+		
+		QnaResultDto qnaResultDto = new QnaResultDto();
+		
+		try {
+			List<QnaDto> list = dao.qnaListSearchWord(qnaParameterDto);
+			int count = dao.qnaListSearchWordTotalCount(qnaParameterDto);
+			
+			qnaResultDto.setList(list);
+			qnaResultDto.setCount(count);
+			
+			qnaResultDto.setResult(SUCCESS);
+		
+		}catch(Exception e) {
+			e.printStackTrace();
+			qnaResultDto.setResult(FAIL);
+		}
+		
+		return qnaResultDto;
 	}
 
 }

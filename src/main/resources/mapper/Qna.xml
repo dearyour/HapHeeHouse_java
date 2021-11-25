@@ -17,15 +17,10 @@
 				end regtime
 		from qna
 		<if test="word != null and word != ''">
-			<if test="key == 'subject'">
 				where subject like concat('%', #{word}, '%')
-			</if>
-			<if test="key != 'subject'">
-				where ${key} = #{word}
-			</if>
 		</if>
 		order by articleno desc
-		limit #{start}, #{spp}
+
 	</select>
 	
 	<select id="getTotalCount" parameterType="map" resultType="int">
@@ -41,7 +36,21 @@
 		</if>
 	</select>
 	
-	<select id="QnaListSearchWord" parameterType="map" resultType="com.ssafy.happyhouse.model.dto.QnaDto">
+		<!-- reg_dt : LocalDateTime, check out BoardDto setter  -->
+	<select id="boardList" parameterType="map" resultType="com.ssafy.happyhouse.model.dto.QnaDto">
+		SELECT b.articleno, b.userid, u.email, u.USER_PROFILE_IMAGE_URL,
+		  	   b.subject, b.content, b.regtime, b.hit
+		  FROM qna b, member u
+		 WHERE b.userid = u.userid
+		 ORDER BY b.articleno DESC
+		 LIMIT #{limit} OFFSET #{offset}
+	</select>
+	
+	<select id="qnaListTotalCount" resultType="int">
+		SELECT COUNT(*) FROM qna
+	</select>
+	
+	<select id="qnaListSearchWord" parameterType="map" resultType="com.ssafy.happyhouse.model.dto.QnaDto">
 		SELECT b.articleno, b.userid, u.email, u.USER_PROFILE_IMAGE_URL,
 		  	   b.subject, b.content, b.regtime, b.hit
 		  FROM qna b, member u

@@ -2,15 +2,15 @@ package com.ssafy.util;
 
 public class PageNavigation {
 
-	private boolean startRange;
-	private boolean endRange;
-	private int totalCount;
-	private int newCount;
-	private int totalPageCount;
-	private int currentPage;
-	private int naviSize;
-	private int countPerPage;
-	private String navigator;
+	private boolean startRange; // 현재 페이지가 초기 범위
+	private boolean endRange; // 현재 페이지가 마지막 범위
+	private int totalCount; // 총 글수
+	private int newCount; 
+	private int totalPageCount; // 총 페이지 수
+	private int currentPage; // 현재 페이지
+	private int naviSize; // 네비게이션 사이즈
+	private int countPerPage; // 한 페이지당 글 개수
+	private String navigator; // 한번에 뿌려주기 위한 것
 
 	public boolean isStartRange() {
 		return startRange;
@@ -81,29 +81,31 @@ public class PageNavigation {
 	}
 
 	public void makeNavigator() {
-		int startPage = (currentPage - 1) / naviSize * naviSize + 1;//6 11
-		int endPage = startPage + naviSize - 1;//10 15
+		int startPage = (currentPage - 1) / naviSize * naviSize + 1;
+		int endPage = startPage + naviSize - 1;
 		if(totalPageCount < endPage)
-			endPage = totalPageCount;//11
+			endPage = totalPageCount;
 		
 		StringBuilder buffer = new StringBuilder();
 		buffer.append("		<ul class=\"pagination\"> \n");
 		buffer.append("			<li class=\"page-item\"> \n");
-		buffer.append("				<a href=\"#\"id=\"first-page\" class=\"page-link\" move-pg=\"1\">최신</a> \n");
+		buffer.append("				<a href=\"javascript:pageMove(1);\" class=\"page-link\">최신</a> \n");
 		buffer.append("			</li> \n");
 		buffer.append("			<li class=\"page-item\"> \n");
-		buffer.append("				<a href=\"#\" class=\"page-link\" move-pg=\"" + (this.startRange ? 1 : (startPage - 1)) + "\">이전</a> \n");
+		buffer.append("				<a href=\"javascript:pageMove(" + (this.startRange ? 1 : (startPage - 1)) + ");\" class=\"page-link\">이전</a> \n");
 		buffer.append("			</li> \n");
 		for(int i=startPage;i<=endPage;i++) {
-			buffer.append("			<li class=\"" + (currentPage == i ? "page-item active" : "page-item") + "\"><a href=\"#\" class=\"page-link\" move-pg=\"" + i + "\">" + i + "</a></li> \n");
+			buffer.append("			<li class=\"" + (currentPage == i ? "page-item active" : "page-item") + "\"><a href=\"javascript:pageMove(" + i + ");\" class=\"page-link\">" + i + "</a></li> \n");
 		}
 		buffer.append("			<li class=\"page-item\"> \n");
-		buffer.append("				<a href=\"#\" class=\"page-link\" move-pg=\"" + (this.endRange ? endPage : (endPage + 1)) + "\">다음</a> \n");
+		buffer.append("				<a href=\"javascript:pageMove(" + (this.endRange ? endPage : (endPage + 1)) + ");\" class=\"page-link\">다음</a> \n");
 		buffer.append("			</li> \n");
 		buffer.append("			<li class=\"page-item\"> \n");
-		buffer.append("				<a href=\"#\" class=\"page-link\" move-pg=\"" + totalPageCount + "\">마지막</a> \n");
+		buffer.append("				<a href=\"javascript:pageMove(" +  + totalPageCount + ");\" class=\"page-link\">마지막</a> \n");
 		buffer.append("			</li> \n");
 		buffer.append("		</ul> \n");
 		this.navigator = buffer.toString();
 	}
+
 }
+

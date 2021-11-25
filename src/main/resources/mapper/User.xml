@@ -60,13 +60,21 @@
 		userpwd = #{userpwd}
 	</select>
 
-	<!-- 유저 삭제 -->
+
+	<delete id="memberWithdraw">
+		delete from member
+		where userid=#{userid}
+	</delete>
+
+	<!-- 유저 삭제 
 	<delete id="memberWithdraw"
 		parameterType="com.ssafy.happyhouse.model.dto.LoginDto">
 		delete from member
 		where userid=#{userid} and userpwd=#{userpwd}
 	</delete>
-
+	-->
+	
+	
 	<select id="checkInfo"
 		parameterType="com.ssafy.happyhouse.model.dto.UserBeforeChangePasswordDto"
 		resultType="int">

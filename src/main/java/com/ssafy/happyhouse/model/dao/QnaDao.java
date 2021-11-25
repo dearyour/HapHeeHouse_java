@@ -16,5 +16,12 @@ public interface QnaDao {
 	public int modifyArticle(QnaDto qnaDto) throws SQLException;
 	public void deleteMemo(int articleno) throws SQLException;
 	public int deleteArticle(int articleno) throws SQLException;
-	public List<QnaDto> QnaListSearchWord(QnaDto qnaDto);
+//	public List<QnaDto> QnaListSearchWord(QnaDto qnaDto);
+	
+	
+	public List<QnaDto> qnaList(QnaParameterDto qnaParamDto);
+	public int qnaListTotalCount();
+	
+	public List<QnaDto> qnaListSearchWord(QnaParameterDto qnaParamDto);
+	public int qnaListSearchWordTotalCount(QnaParameterDto qnaParamDto);
 }

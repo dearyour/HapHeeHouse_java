@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.ssafy.happyhouse.model.dto.QnaDto;
 import com.ssafy.happyhouse.model.dto.QnaParameterDto;
-import com.ssafy.happyhouse.model.dto.QnaReplyDto;
+import com.ssafy.happyhouse.model.dto.QnaResultDto;
 import com.ssafy.util.PageNavigation;
 
 public interface QnaService {
@@ -17,4 +17,9 @@ public interface QnaService {
 	public boolean modifyArticle(QnaDto qnaDto) throws Exception;
 	public boolean deleteArticle(int articleno) throws Exception;
 //	public BoardResultDto boardListSearchWord(BoardParamDto boardParamDto);
+	
+	public QnaResultDto qnaList(QnaParameterDto qnaParameterDto);
+	//public int boardListTotalCount();	
+	public QnaResultDto qnaListSearchWord(QnaParameterDto qnaParameterDto);
+	//public int boardListSearchWordTotalCount(boardParamDto boardParamDto);
 }

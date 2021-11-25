@@ -1,10 +1,11 @@
 package com.ssafy.happyhouse.model.dto;
+
 import java.util.List;
 
-public class BoardResultDto {
+public class QnaResultDto {
 	private int result;
-	private BoardDto dto;
-	private List<BoardDto> list;
+	private QnaDto dto;
+	private List<QnaDto> list;
 	private int count;
 	
 	private boolean isOwner;
@@ -22,17 +23,17 @@ public class BoardResultDto {
 	public void setResult(int result) {
 		this.result = result;
 	}
-	public BoardDto getDto() {
+	public QnaDto getDto() {
 		return dto;
 	}
-	public void setDto(BoardDto dto) {
+	public void setDto(QnaDto dto) {
 		this.dto = dto;
 	}
 
-	public List<BoardDto> getList() {
+	public List<QnaDto> getList() {
 		return list;
 	}
-	public void setList(List<BoardDto> list) {
+	public void setList(List<QnaDto> list) {
 		this.list = list;
 	}
 	public int getCount() {

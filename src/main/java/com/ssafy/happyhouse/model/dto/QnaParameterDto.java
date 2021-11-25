@@ -28,6 +28,8 @@ public class QnaParameterDto {
 	private int limit;
 	private int offset;
 	private String searchWord;
+	private int articleno;
+	private String userid;
 	
 	public QnaParameterDto() {
 		pg = 1;
