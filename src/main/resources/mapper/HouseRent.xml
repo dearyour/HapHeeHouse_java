@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.happyhouse.model.dao.HouseRentDAO">
+	<select id="getAptCode" resultType="int">
+		select aptCode 
+		from houserent
+		where dongCode=#{dongCode} and jibun != '' and jibun=#{jibun}
+	</select>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="aptCode">
+		insert into houserent(aptName, dongCode, dongName, buildYear, jibun, houseTypeCode, houseTypeName)
+		values (#{aptName}, #{dongCode}, #{dongName}, #{buildYear}, #{jibun}, #{houseTypeCode}, #{houseTypeName})
+	</insert>
+	<select id="getApt" resultType="houseInfoDto">
+		select distinct h.aptCode, h.aptName, h.buildyear, h.dongCode, h.dongName, h.jibun, si.sidoname, gu.gugunname, ifnull((select concat_ws(' ', rentTypeName, deposit, rentMoney) from houserentdeal where aptCode = h.aptCode and no = (select max(no) from houserentdeal where aptCode = h.aptCode)), '거래 현황 없음') recentPrice
+		from houserent h
+		left join sidocode si
+		on left(h.dongcode,2) = left(si.sidocode,2)
+		left join guguncode gu
+		on left(h.dongcode,5) = left(gu.guguncode,5)
+		inner join housedeal d on h.aptCode = d.aptCode
+		where h.houseTypeCode = 1 and h.dongCode = #{dong} and cast(d.area as signed) between #{minArea} and #{maxArea} and cast(d.dealAmount as signed) between #{minAmount} and #{maxAmount}
+		order by aptName
+	</select>
+	<select id="getNotApt" resultType="houseInfoDto">
+		select distinct h.aptCode, h.aptName, h.buildyear, h.dongCode, h.dongName, h.jibun, si.sidoname, gu.gugunname, ifnull((select concat_ws(' ', rentTypeName, deposit, rentMoney) from houserentdeal where aptCode = h.aptCode and no = (select max(no) from houserentdeal where aptCode = h.aptCode)), '거래 현황 없음') recentPrice
+		from houserent h
+		left join sidocode si
+		on left(h.dongcode,2) = left(si.sidocode,2)
+		left join guguncode gu
+		on left(h.dongcode,5) = left(gu.guguncode,5)
+		inner join housedeal d on h.aptCode = d.aptCode
+		where h.houseTypeCode = 4 and h.dongCode = #{dong} and cast(d.area as signed) between #{minArea} and #{maxArea} and cast(d.dealAmount as signed) between #{minAmount} and #{maxAmount}
+		order by aptName
+	</select>
+</mapper>

@@ -1,6 +1,8 @@
 package com.ssafy.happyhouse.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.servlet.http.HttpSession;
 
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.happyhouse.model.dto.HouseDealDto;
 import com.ssafy.happyhouse.model.service.HouseDealService;
+import com.ssafy.happyhouse.model.service.HouseRentDealService;
 
 @RequestMapping("/deal")
 @RestController
@@ -24,10 +27,30 @@ public class HouseDealController {
 		this.houseDealService = houseDealService;
 	}
 	
-	@GetMapping("/apt")
-	public ResponseEntity<List<HouseDealDto>> searchDealInfoByAptCode(@RequestParam("aptCode") int aptCode) {
-		System.out.println("apt");
+	private HouseRentDealService houseRentDealService;
+	@Autowired
+	public void setHouseRentDealService(HouseRentDealService houseRentDealService) {
+		this.houseRentDealService = houseRentDealService;
+	}
+	
+	@GetMapping("/for-sale")
+	public ResponseEntity<List<HouseDealDto>> searchForSaleByAptCode(@RequestParam("aptCode") int aptCode) {
+		System.out.println("for-sale");
 		return ResponseEntity.ok(houseDealService.searchDealInfoByAptCode(aptCode));
+	}
+	
+	@GetMapping("/to-let")
+	public ResponseEntity<List<HouseDealDto>> searchToLetByAptCode(@RequestParam("aptCode") int aptCode) {
+		System.out.println("to-let");
+		return ResponseEntity.ok(houseRentDealService.searchRentDealInfoByAptCode(aptCode));
+	}
+	
+	@GetMapping("/all")
+	public ResponseEntity<List<HouseDealDto>> searchAllByAptCode(@RequestParam("aptCode") int aptCode) {
+		System.out.println("all");
+		return ResponseEntity.ok(Stream.concat(houseRentDealService.searchRentDealInfoByAptCode(aptCode).stream()
+				, houseDealService.searchDealInfoByAptCode(aptCode).stream())
+				.collect(Collectors.toList()));
 	}
 	
 //	@GetMapping("/login-check")

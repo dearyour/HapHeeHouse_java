@@ -24,6 +24,10 @@ public class HouseDealDto {
 	private String area;
 	private String floor;
 	private String type;	
-	private String rentMoney;
 	
+	// HouseRent에만 있는 column
+	private String rentMoney;
+	private String deposit;
+	private int rentTypeCode;
+	private String rentTypeName;
 }
