@@ -15,7 +15,7 @@ public class BoardParamDto {
 		this.limit = limit;
 	}
 	public int getOffset() {
-		return offset;
+		return offset; 
 	}
 	public void setOffset(int offset) {
 		this.offset = offset;
