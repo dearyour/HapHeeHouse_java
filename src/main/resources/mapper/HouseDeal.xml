@@ -4,9 +4,9 @@
 
 <mapper namespace="com.ssafy.happyhouse.model.dao.HouseDealDAO">
 	<select id="searchDealInfoByAptCode" parameterType="int" resultType="houseDealDto">
-		select no, aptCode, dealAmount, dealYear, dealMonth, dealDay, area, floor, type, rentMoney 
+		select no, (select aptName from houseinfo i where i.aptCode=#{aptCode}) aptName, aptCode, dealAmount, dealYear, dealMonth, dealDay, area, floor, type, rentMoney 
 		from housedeal
 		where aptCode=#{aptCode}
-		order by no
+		order by no desc
 	</select>
 </mapper>

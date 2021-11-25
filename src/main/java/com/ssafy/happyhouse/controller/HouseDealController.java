@@ -17,7 +17,7 @@ import com.ssafy.happyhouse.model.dto.HouseDealDto;
 import com.ssafy.happyhouse.model.service.HouseDealService;
 import com.ssafy.happyhouse.model.service.HouseRentDealService;
 
-@RequestMapping("/deal")
+@RequestMapping("/history")
 @RestController
 public class HouseDealController {
 	
@@ -33,25 +33,25 @@ public class HouseDealController {
 		this.houseRentDealService = houseRentDealService;
 	}
 	
-	@GetMapping("/for-sale")
+	@GetMapping("/deal")
 	public ResponseEntity<List<HouseDealDto>> searchForSaleByAptCode(@RequestParam("aptCode") int aptCode) {
 		System.out.println("for-sale");
 		return ResponseEntity.ok(houseDealService.searchDealInfoByAptCode(aptCode));
 	}
 	
-	@GetMapping("/to-let")
+	@GetMapping("/rent")
 	public ResponseEntity<List<HouseDealDto>> searchToLetByAptCode(@RequestParam("aptCode") int aptCode) {
 		System.out.println("to-let");
 		return ResponseEntity.ok(houseRentDealService.searchRentDealInfoByAptCode(aptCode));
 	}
 	
-	@GetMapping("/all")
-	public ResponseEntity<List<HouseDealDto>> searchAllByAptCode(@RequestParam("aptCode") int aptCode) {
-		System.out.println("all");
-		return ResponseEntity.ok(Stream.concat(houseRentDealService.searchRentDealInfoByAptCode(aptCode).stream()
-				, houseDealService.searchDealInfoByAptCode(aptCode).stream())
-				.collect(Collectors.toList()));
-	}
+//	@GetMapping("/all")
+//	public ResponseEntity<List<HouseDealDto>> searchAllByAptCode(@RequestParam("aptCode") int aptCode) {
+//		System.out.println("all");
+//		return ResponseEntity.ok(Stream.concat(houseRentDealService.searchRentDealInfoByAptCode(aptCode).stream()
+//				, houseDealService.searchDealInfoByAptCode(aptCode).stream())
+//				.collect(Collectors.toList()));
+//	}
 	
 //	@GetMapping("/login-check")
 //	public ResponseEntity<Integer> login(HttpSession session) {
